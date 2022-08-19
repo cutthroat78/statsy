@@ -1,0 +1,16 @@
+echo "Linux System Info:"
+cat /proc/version
+echo -e "----------\nUptime:"
+uptime
+echo -e "----------\nCPU Usage:"
+NUMCPUS=` grep ^proc /proc/cpuinfo | wc -l`; FIRST=` cat /proc/stat | awk '/^cpu / { print $5}'`; sleep 1; SECOND=` cat /proc/stat | awk '/^cpu / { print $5}'`; USED=` echo 2 k 100 $SECOND $FIRST - $NUMCPUS / - p | dc`; echo ${USED}%
+echo -e "----------\nMeminfo;"
+free -h
+echo -e "----------\nLaptop Battery Charge:"
+upower -i $( upower -e | grep BAT) | grep --color=never -E percentage| xargs| cut -d' ' -f2| sed s/%//``
+echo -e "----------\nExternal IP:"
+curl ifconfig.me
+echo -e "\n----------\nDisk Usage Info:"
+df -k
+echo -e "----------\nCalendar:"
+cal
